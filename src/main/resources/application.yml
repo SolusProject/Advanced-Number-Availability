@@ -1,9 +1,9 @@
 esource:
   array:
-    count: 5
-    size: 20
-    min: 0
-    max: 50
+    count: ${ARRAY_COUNT:5}
+    size: ${ARRAY_SIZE:10}
+    min: ${ARRAY_MIN_VALUE:1}
+    max: ${ARRAY_MAX_VALUE:100}
 
 spring:
   application:

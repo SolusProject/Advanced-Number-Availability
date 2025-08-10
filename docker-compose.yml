@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    image: number_availability
+    ports:
+      - "8080:8080"
+    environment:
+      ARRAY_COUNT: 7
+      ARRAY_SIZE: 17
+      ARRAY_MIN_VALUE: 7
+      ARRAY_MAX_VALUE: 77

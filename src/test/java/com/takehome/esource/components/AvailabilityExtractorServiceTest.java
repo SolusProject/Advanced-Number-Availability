@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 
@@ -99,8 +100,10 @@ public class AvailabilityExtractorServiceTest {
 
     @ParameterizedTest
     @MethodSource("providePrimeArguments")
-    void foo(Integer[] input, Integer expected) {
+    void givenLists_whenGetLargestPrime_thenGetLargestPrime(Integer[] input, Integer expected) {
         assertEquals(expected, service.getLargestPrime(input), "Primes should match");
     }
+
+
 
 }
