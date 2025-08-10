@@ -1,5 +1,6 @@
 package com.takehome.esource.components;
 
+import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.stream.IntStream;
 @Service
 public class AvailabilityExtractorService {
 
-    public Integer largestPrime(Integer[] array) {
+    public Integer getLargestPrime(Integer[] array) {
         Arrays.sort(array, Collections.reverseOrder());
         return Arrays.stream(array)
                 .filter(AvailabilityExtractorService::isPrime)
@@ -23,7 +24,7 @@ public class AvailabilityExtractorService {
                 .orElse(-1);
     }
 
-    public Integer[] availableNumbersConcurrent(int[][] arrays, int start, int end) throws InterruptedException {
+    public Integer[] getAvailableNumbersConcurrent(int[][] arrays, int start, int end) throws InterruptedException {
         var universe = universe(start, end);
 
         var executor = Executors.newFixedThreadPool(2*Runtime.getRuntime().availableProcessors()); // basic
@@ -41,13 +42,13 @@ public class AvailabilityExtractorService {
         executor.shutdown();
 
         universe.removeAll(usedNumbers);
-        return universe.toArray(Integer[]::new);
+        return universe.stream().sorted().toArray(Integer[]::new);
     }
 
-    public Integer[] availableNumbers(int[][] arrays, int start, int end) {
+    public Integer[] getAvailableNumbers(int[][] arrays, int start, int end) {
         var universe = universe(start, end);
         universe.removeAll(usedIntegers(arrays, start, end));
-        return universe.toArray(Integer[]::new);
+        return universe.stream().sorted().toArray(Integer[]::new);
     }
 
     private Set<Integer> universe(int start, int end) {
@@ -62,10 +63,11 @@ public class AvailabilityExtractorService {
                 .filter(n -> start <= n && n <= end)
                 .distinct()
                 .boxed()
-                .collect(HashSet::new, HashSet::add, HashSet::addAll);
+                .collect(Collectors.toSet());
     }
 
-    private Set<Integer> getFromFuture(Future<Set<Integer>> future) {
+    @VisibleForTesting
+    Set<Integer> getFromFuture(Future<Set<Integer>> future) {
         try {
             return future.get();
         } catch (InterruptedException | ExecutionException e) {

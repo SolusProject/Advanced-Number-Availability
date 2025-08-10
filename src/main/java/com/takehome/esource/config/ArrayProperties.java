@@ -27,15 +27,9 @@ public class ArrayProperties {
     private Optional<Integer> size = Optional.empty(); // size is the same for every array
 
     // add value constraints
-    private int min;
+    private Integer min;
     // add value constraints
-    private int max;
-
-    public Stream<Integer> getCountAsStream() {
-        return count.map(c -> IntStream.range(0, c))
-                .map(IntStream::boxed)
-                .orElse(Stream.empty());
-    }
+    private Integer max;
 
     @PostConstruct
     public void validateUniverse() {

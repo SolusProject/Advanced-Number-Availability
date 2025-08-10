@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.4'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
 }
 
 group = 'com.takehome'
@@ -11,6 +12,10 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
+}
+
+jacoco {
+	toolVersion = "0.8.7"
 }
 
 configurations {
@@ -35,8 +40,22 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'com.h2database:h2'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'com.google.guava:guava:30.1-jre'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+
+	jacocoTestReport {
+		dependsOn test // Ensure that tests are run before generating the report
+	}
 }

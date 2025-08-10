@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -15,7 +16,7 @@ public class ArrayGeneratorService {
     private final ArrayProperties arrayProperties;
 
     public int[][] generateArrays() {
-        return arrayProperties.getCountAsStream()
+        return getCountAsStream()
                 .map(i -> generateArray())// can be extended
                 .toArray(int[][]::new);
     }
@@ -30,6 +31,13 @@ public class ArrayGeneratorService {
 
     private Supplier<Integer> withSupplier() {
         return () -> getRandomBetween(arrayProperties.getMin(), arrayProperties.getMax());
+    }
+
+    public Stream<Integer> getCountAsStream() {
+        return arrayProperties.getCount()
+                .map(c -> IntStream.range(0, c))
+                .map(IntStream::boxed)
+                .orElse(Stream.empty());
     }
 
     public static int getRandomBetween(int min, int max) {
