@@ -2,23 +2,17 @@ package com.takehome.esource.components;
 
 import com.takehome.esource.config.ArrayProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ArrayGeneratorService {
 
     private final ArrayProperties arrayProperties;
-
-    private static final Random random = new Random();
 
     public int[][] generateArrays() {
         return arrayProperties.getCountAsStream()
