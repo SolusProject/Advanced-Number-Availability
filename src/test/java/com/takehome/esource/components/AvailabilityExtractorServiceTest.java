@@ -24,4 +24,12 @@ public class AvailabilityExtractorServiceTest {
         }
         System.out.println();
     }
+
+    @Test
+    public void given_whenLargestPrime_then() {
+
+        var array = service.availableNumbers(arrayGeneratorService.generateArrays(), 0, 50);
+
+        System.out.println("Largest Prime.... "+ service.largestPrime(array));
+    }
 }
