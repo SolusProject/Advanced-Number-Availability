@@ -24,7 +24,7 @@ public class ArrayGeneratorService {
     private int [] generateArray() {
         return Stream.generate(withSupplier())
                 .distinct()
-                .limit(arrayProperties.getSize().orElse(0))
+                .limit(arrayProperties.getSize())
                 .mapToInt(Integer::intValue)
                 .toArray();
     }
@@ -34,10 +34,7 @@ public class ArrayGeneratorService {
     }
 
     public Stream<Integer> getCountAsStream() {
-        return arrayProperties.getCount()
-                .map(c -> IntStream.range(0, c))
-                .map(IntStream::boxed)
-                .orElse(Stream.empty());
+        return IntStream.range(0, arrayProperties.getCount()).boxed();
     }
 
     public static int getRandomBetween(int min, int max) {
